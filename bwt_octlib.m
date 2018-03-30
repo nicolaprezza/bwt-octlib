@@ -1,12 +1,6 @@
 #main function
 function []=bwt_octlib(s)
-
-  s;
-  BWT(s)
-  rotations(s);
-  sort(rotations(s));
-  SA(s);
-  ISA(s);
+  
 
 end
 
@@ -125,5 +119,65 @@ function isa = ISA(s)
 
 end
 
+#compute the symmetric BWT of s
+function sb = SBWT(s)
+
+  si = flip(s); #reverse of s
+  sa = SA(s); #SA of s
+  sai = SA(si);#SA of si
+  bwt = BWT(s);#BWT of s
+  
+  n = length(s);
+  
+  #scan SA
+  for j = 1:n
+    
+    #scan ISA
+    for i = 1:n
+    
+      if sai(i) == (mod(2-sa(j),n)+1) 
+    
+        sb(j,i) = bwt(j);
+    
+      else
+    
+        sb(j,i) = ' ';
+    
+      endif
+    
+    end    
+  
+  end
+  
+end
+
+
+#compute chi permutation
+function chi = CHI(s)
+
+  si = flip(s); #reverse of s
+  sa = SA(s); #SA of s
+  sai = SA(si);#SA of si
+  bwt = BWT(s);#BWT of s
+  
+  n = length(s);
+  
+  #scan SA
+  for j = 1:n
+    
+    #scan SA of reverse
+    for i = 1:n
+    
+      if sai(i) == (mod(2-sa(j),n)+1) 
+    
+        chi(j) = i;
+    
+      endif
+    
+    end    
+  
+  end
+  
+end
 
 
