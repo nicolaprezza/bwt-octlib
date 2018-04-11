@@ -1,6 +1,16 @@
 #main function
 function []=bwt_octlib(s)
  
+ draw(s);
+
+ %LCP(s)	%LCP array of s
+ %LCP(flip(s)) 	%LCP array of s reversed
+
+end
+
+
+function []=draw(s)
+
  darkGrey  = [0.2 0.2 0.2];
  brown       = [0.2 0 0];
  orange      = [1 0.5 0];
@@ -223,6 +233,33 @@ function isa = ISA(s)
 	end
 
 end
+
+
+#return LCP array of s
+function lcp = LCP(s)
+
+	M = rotations(s);
+	Msort = sort(M);
+	len=length(s);
+
+	lcp = []; #init empty lcp array
+	lcp(1) = 0;
+
+	for i = 2:len
+
+		l=0;
+		j=1;
+
+		while(char(Msort(i))(j) ==  char(Msort(i-1))(j))
+			l = l+1 ;
+			j = j+1;
+		end
+
+		lcp(i) = l;
+	
+	end
+end
+
 
 #compute the symmetric BWT of s
 function sb = SBWT(s)
